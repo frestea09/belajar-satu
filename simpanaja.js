@@ -1,7 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
-import React,{useState} from 'react';
+import React from 'react';
 import ListMahasiswa from './Component/ListMahasiswa'
-import { StyleSheet, Text, View, Button, TextInput, ScrollView, FlatList } from 'react-native';
+import { StyleSheet, Text, View, Button, TextInput, ScrollView } from 'react-native';
 
 
 class App extends React.Component {
@@ -12,7 +12,6 @@ class App extends React.Component {
       'statusLogin':'Login',
       'inputNama':'',
       'inputNim':'',
-      'count':0,
       'listMahasiswa':[
         {
           'id':'10112299',
@@ -50,7 +49,6 @@ class App extends React.Component {
     this.setLogout = this.setLogout.bind(this)
     this.setinputNim = this.setinputNim.bind(this)
     this.setInputNama = this.setInputNama.bind(this)
-    this.tampilkanData = this.tampilkanData.bind(this)
   }
   setInputNama(event){
     this.setState(
@@ -73,27 +71,24 @@ class App extends React.Component {
       }
     )
   }
-  tampilkanData(){
-    this.setState(
-      {
-        'count':this.state.count + 1
-      }
-    )
-  }
+  
   render() {
-    let mahasiswa = this.state.listMahasiswa.map(item=><View key={item.id}><ListMahasiswa dataItem={item}/></View>)
+    const mahasiswa = this.state.listMahasiswa.map(item=>
+      <ListMahasiswa key={item.id} dataItem={item}/>)
     return (
       <View style={styles.container}>
-          <Text>Hello</Text>
-          <FlatList 
-            numColumns={4}
-            keyExtractor = {(item)=>item.id}
-            data={this.state.listMahasiswa}
-            renderItem={({item})=>(
-              <ListMahasiswa dataItem={item} tampilkanData={this.tampilkanData}/>
-            )}
-          />
-          <Text> dataCount = {this.state.count}</Text>
+        <Text style={styles.BoldText}>{this.state.nama}</Text>
+        <Text style={styles.BoldText}>{this.state.statusLogin}</Text>
+        <Text></Text>
+        <Button title='Logout' onPress={this.setLogout}/>
+        <TextInput style={styles.Input} onChangeText={this.setinputNim}/>
+        <Text></Text>
+        <TextInput style={styles.Input} onChangeText={this.setInputNama}/>
+        <Text>{this.state.inputNama}</Text>
+        <Text>{this.state.inputNim}</Text>
+        <ScrollView>
+          {mahasiswa}
+        </ScrollView>
       </View>
     );
   }
